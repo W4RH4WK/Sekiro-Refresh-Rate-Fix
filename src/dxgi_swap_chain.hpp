@@ -1,13 +1,9 @@
 #pragma once
 
-#include <fstream>
-
 #include <dxgi1_2.h>
 
 class DXGISwapChainWrapper : public IDXGISwapChain1 {
   public:
-	DXGISwapChainWrapper() { std::ofstream("dxwrap_swap_chain.log", std::ios_base::app) << "created\n"; }
-
 	HRESULT STDMETHODCALLTYPE QueryInterface(
 	    /* [in] */ REFIID riid,
 	    /* [iid_is][out] */ _COM_Outptr_ void __RPC_FAR *__RPC_FAR *ppvObject) override
