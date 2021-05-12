@@ -6,7 +6,8 @@ These interceptor DLLs prevent changes to the refresh rate.
 
 ## Install Pre-compiled
 
-Grab latest release and place `d3d11.dll` and `dxgi.dll` inside Sekiro install directory (e.g. `F:\SteamLibrary\steamapps\common\Sekiro`).
+- Grab `dlls.zip` from the latest release
+- Extract and place `d3d11.dll` and `dxgi.dll` inside Sekiro install directory (e.g. `F:\SteamLibrary\steamapps\common\Sekiro`).
 
 ## Build It Yourself
 
