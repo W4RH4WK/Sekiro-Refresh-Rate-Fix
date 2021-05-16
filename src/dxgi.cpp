@@ -8,8 +8,10 @@
 #undef CreateDXGIFactory1
 #undef CreateDXGIFactory2
 
-#include "dxgi_swap_chain.hpp"
 #include "dxgi_factory.hpp"
+#include "dxgi_swap_chain.hpp"
+
+#include "logger.hpp"
 
 #define DLLEXPORT __declspec(dllexport)
 
@@ -34,9 +36,10 @@ struct PfnInit {
 		_CreateDXGIFactory = (decltype(_CreateDXGIFactory))GetProcAddress(hDll, "CreateDXGIFactory");
 		_CreateDXGIFactory1 = (decltype(_CreateDXGIFactory1))GetProcAddress(hDll, "CreateDXGIFactory1");
 		_CreateDXGIFactory2 = (decltype(_CreateDXGIFactory2))GetProcAddress(hDll, "CreateDXGIFactory2");
+
+		LOG("DXGI init done");
 	}
 } g_pfnInit;
-
 
 extern "C" {
 DLLEXPORT HRESULT WINAPI CreateDXGIFactory2(UINT Flags, REFIID riid, _COM_Outptr_ void **ppFactory)

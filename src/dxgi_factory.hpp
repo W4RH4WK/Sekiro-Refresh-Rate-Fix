@@ -2,12 +2,17 @@
 
 #include <dxgi1_2.h>
 
+#include "dxgi_swap_chain.hpp"
+
+#include "logger.hpp"
+
 class DXGIFactoryWrapper : public IDXGIFactory2 {
   public:
 	HRESULT STDMETHODCALLTYPE QueryInterface(
 	    /* [in] */ REFIID riid,
 	    /* [iid_is][out] */ _COM_Outptr_ void __RPC_FAR *__RPC_FAR *ppvObject) override
 	{
+		LOG(to_string(riid));
 		return m_real->QueryInterface(riid, ppvObject);
 	}
 
@@ -51,6 +56,7 @@ class DXGIFactoryWrapper : public IDXGIFactory2 {
 	    /* [annotation][retval][out] */
 	    _COM_Outptr_ void **ppParent) override
 	{
+		LOG(to_string(riid));
 		return m_real->GetParent(riid, ppParent);
 	}
 
@@ -82,6 +88,8 @@ class DXGIFactoryWrapper : public IDXGIFactory2 {
 	    /* [annotation][out] */
 	    _COM_Outptr_ IDXGISwapChain **ppSwapChain) override
 	{
+		LOG();
+
 		auto dxgiSwapChainWrapper = new DXGISwapChainWrapper();
 
 		HRESULT result = m_real->CreateSwapChain(pDevice, pDesc, (IDXGISwapChain **)&dxgiSwapChainWrapper->m_real);
@@ -123,6 +131,8 @@ class DXGIFactoryWrapper : public IDXGIFactory2 {
 	    /* [annotation][out] */
 	    _COM_Outptr_ IDXGISwapChain1 **ppSwapChain) override
 	{
+		LOG();
+
 		auto dxgiSwapChainWrapper = new DXGISwapChainWrapper();
 
 		HRESULT result = m_real->CreateSwapChainForHwnd(pDevice, hWnd, pDesc, pFullscreenDesc, pRestrictToOutput,
@@ -143,6 +153,8 @@ class DXGIFactoryWrapper : public IDXGIFactory2 {
 	    /* [annotation][out] */
 	    _COM_Outptr_ IDXGISwapChain1 **ppSwapChain) override
 	{
+		LOG();
+
 		auto dxgiSwapChainWrapper = new DXGISwapChainWrapper();
 
 		HRESULT result = m_real->CreateSwapChainForCoreWindow(pDevice, pWindow, pDesc, pRestrictToOutput,
@@ -224,6 +236,8 @@ class DXGIFactoryWrapper : public IDXGIFactory2 {
 	    /* [annotation][out] */
 	    _COM_Outptr_ IDXGISwapChain1 **ppSwapChain) override
 	{
+		LOG();
+
 		auto dxgiSwapChainWrapper = new DXGISwapChainWrapper();
 
 		HRESULT result =

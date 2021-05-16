@@ -10,6 +10,8 @@
 
 #include "d3d11_device.hpp"
 
+#include "logger.hpp"
+
 #define DLLEXPORT __declspec(dllexport)
 
 decltype(&D3D11CreateDevice_) _D3D11CreateDevice;
@@ -32,6 +34,8 @@ struct PfnInit {
 		_D3D11CreateDevice = (decltype(_D3D11CreateDevice))GetProcAddress(hDll, "D3D11CreateDevice");
 		_D3D11CreateDeviceAndSwapChain =
 		    (decltype(_D3D11CreateDeviceAndSwapChain))GetProcAddress(hDll, "D3D11CreateDeviceAndSwapChain");
+
+		LOG("D3D11 init done " + to_string(__uuidof(IDXGIAdapter)));
 	}
 } g_pfnInit;
 

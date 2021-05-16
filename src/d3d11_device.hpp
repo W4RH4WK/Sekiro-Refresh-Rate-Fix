@@ -4,6 +4,8 @@
 
 #include "dxgi_device.hpp"
 
+#include "logger.hpp"
+
 class D3D11DeviceWrapper : public ID3D11Device {
   public:
 	HRESULT STDMETHODCALLTYPE QueryInterface(
@@ -19,6 +21,7 @@ class D3D11DeviceWrapper : public ID3D11Device {
 			return result;
 		}
 
+		LOG(to_string(riid));
 		return m_real->QueryInterface(riid, ppvObject);
 	}
 

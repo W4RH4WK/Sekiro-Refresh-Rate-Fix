@@ -4,12 +4,15 @@
 
 #include "dxgi_adapter.hpp"
 
+#include "logger.hpp"
+
 class DXGIDeviceWrapper : public IDXGIDevice {
   public:
 	HRESULT STDMETHODCALLTYPE QueryInterface(
 	    /* [in] */ REFIID riid,
 	    /* [iid_is][out] */ _COM_Outptr_ void __RPC_FAR *__RPC_FAR *ppvObject) override
 	{
+		LOG(to_string(riid));
 		return m_real->QueryInterface(riid, ppvObject);
 	}
 
@@ -60,6 +63,7 @@ class DXGIDeviceWrapper : public IDXGIDevice {
 	    /* [annotation][retval][out] */
 	    _COM_Outptr_ void **ppParent) override
 	{
+		LOG(to_string(riid));
 		return m_real->GetParent(riid, ppParent);
 	}
 
@@ -67,6 +71,8 @@ class DXGIDeviceWrapper : public IDXGIDevice {
 	    /* [annotation][out] */
 	    _COM_Outptr_ IDXGIAdapter **pAdapter) override
 	{
+		LOG();
+
 		auto adapter = new DXGIAdapterWrapper();
 
 		HRESULT result = m_real->GetAdapter(&adapter->m_real);
@@ -85,6 +91,7 @@ class DXGIDeviceWrapper : public IDXGIDevice {
 	    /* [annotation][out] */
 	    _COM_Outptr_ IDXGISurface **ppSurface) override
 	{
+		LOG();
 		return m_real->CreateSurface(pDesc, NumSurfaces, Usage, pSharedResource, ppSurface);
 	}
 

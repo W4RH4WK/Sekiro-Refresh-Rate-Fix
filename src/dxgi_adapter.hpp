@@ -4,12 +4,15 @@
 
 #include "dxgi_factory.hpp"
 
+#include "logger.hpp"
+
 class DXGIAdapterWrapper : public IDXGIAdapter {
   public:
 	HRESULT STDMETHODCALLTYPE QueryInterface(
 	    /* [in] */ REFIID riid,
 	    /* [iid_is][out] */ _COM_Outptr_ void __RPC_FAR *__RPC_FAR *ppvObject) override
 	{
+		LOG(to_string(riid));
 		return m_real->QueryInterface(riid, ppvObject);
 	}
 
@@ -69,6 +72,7 @@ class DXGIAdapterWrapper : public IDXGIAdapter {
 			return result;
 		}
 
+		LOG(to_string(riid));
 		return m_real->GetParent(riid, ppParent);
 	}
 
@@ -84,6 +88,7 @@ class DXGIAdapterWrapper : public IDXGIAdapter {
 	    /* [annotation][out] */
 	    _Out_ DXGI_ADAPTER_DESC *pDesc) override
 	{
+		LOG();
 		return m_real->GetDesc(pDesc);
 	}
 
@@ -93,6 +98,7 @@ class DXGIAdapterWrapper : public IDXGIAdapter {
 	    /* [annotation][out] */
 	    _Out_ LARGE_INTEGER *pUMDVersion) override
 	{
+		LOG(to_string(InterfaceName));
 		return m_real->CheckInterfaceSupport(InterfaceName, pUMDVersion);
 	}
 

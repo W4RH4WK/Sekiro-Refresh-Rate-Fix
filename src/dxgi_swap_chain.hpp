@@ -2,12 +2,15 @@
 
 #include <dxgi1_2.h>
 
+#include "logger.hpp"
+
 class DXGISwapChainWrapper : public IDXGISwapChain1 {
   public:
 	HRESULT STDMETHODCALLTYPE QueryInterface(
 	    /* [in] */ REFIID riid,
 	    /* [iid_is][out] */ _COM_Outptr_ void __RPC_FAR *__RPC_FAR *ppvObject) override
 	{
+		LOG(to_string(riid));
 		return m_real->QueryInterface(riid, ppvObject);
 	}
 
@@ -58,6 +61,7 @@ class DXGISwapChainWrapper : public IDXGISwapChain1 {
 	    /* [annotation][retval][out] */
 	    _COM_Outptr_ void **ppParent) override
 	{
+		LOG(to_string(riid));
 		return m_real->GetParent(riid, ppParent);
 	}
 
@@ -67,6 +71,7 @@ class DXGISwapChainWrapper : public IDXGISwapChain1 {
 	    /* [annotation][retval][out] */
 	    _COM_Outptr_ void **ppDevice) override
 	{
+		LOG(to_string(riid));
 		return m_real->GetDevice(riid, ppDevice);
 	}
 
@@ -92,6 +97,7 @@ class DXGISwapChainWrapper : public IDXGISwapChain1 {
 	    /* [annotation][in] */
 	    _In_opt_ IDXGIOutput *pTarget) override
 	{
+		LOG();
 		return m_real->SetFullscreenState(Fullscreen, pTarget);
 	}
 
@@ -125,6 +131,8 @@ class DXGISwapChainWrapper : public IDXGISwapChain1 {
 	    /* [annotation][in] */
 	    _In_ const DXGI_MODE_DESC *pNewTargetParameters) override
 	{
+		LOG();
+
 		// Do not change monitor refresh rate.
 		DXGI_MODE_DESC param = *pNewTargetParameters;
 		param.RefreshRate = DXGI_RATIONAL{0, 0};
