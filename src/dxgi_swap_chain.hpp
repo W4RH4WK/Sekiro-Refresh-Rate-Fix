@@ -98,7 +98,13 @@ class DXGISwapChainWrapper : public IDXGISwapChain1 {
 	    _In_opt_ IDXGIOutput *pTarget) override
 	{
 		LOG();
-		return m_real->SetFullscreenState(Fullscreen, pTarget);
+
+		HRESULT result = m_real->SetFullscreenState(Fullscreen, pTarget);
+
+		// Replay previous ResizeTarget call to set refresh rate again.
+		ResizeTarget(&m_last_mode_desc);
+
+		return result;
 	}
 
 	HRESULT STDMETHODCALLTYPE GetFullscreenState(
@@ -134,10 +140,10 @@ class DXGISwapChainWrapper : public IDXGISwapChain1 {
 		LOG();
 
 		// Do not change monitor refresh rate.
-		DXGI_MODE_DESC param = *pNewTargetParameters;
-		param.RefreshRate = DXGI_RATIONAL{0, 0};
+		m_last_mode_desc = *pNewTargetParameters;
+		m_last_mode_desc.RefreshRate = DXGI_RATIONAL{0, 0};
 
-		return m_real->ResizeTarget(&param);
+		return m_real->ResizeTarget(&m_last_mode_desc);
 	}
 
 	HRESULT STDMETHODCALLTYPE GetContainingOutput(
@@ -238,4 +244,6 @@ class DXGISwapChainWrapper : public IDXGISwapChain1 {
 	}
 
 	IDXGISwapChain1 *m_real = nullptr;
+
+	DXGI_MODE_DESC m_last_mode_desc = {};
 };
