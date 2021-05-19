@@ -6,7 +6,7 @@ These interceptor DLLs prevent changes to the refresh rate.
 
 ## Install Pre-compiled
 
-- Grab `dlls.zip` from the latest release
+- Grab `dlls.zip` from the [latest release](https://github.com/W4RH4WK/Sekiro-Refresh-Rate-Fix/releases)
 - Extract and place `d3d11.dll` and `dxgi.dll` inside Sekiro install directory (e.g. `F:\SteamLibrary\steamapps\common\Sekiro`).
 
 ## Build It Yourself
